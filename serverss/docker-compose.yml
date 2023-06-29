@@ -1,0 +1,20 @@
+version: '3'
+services:
+  flaskapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+    networks:
+      - mynet
+
+  redis:
+    image: redis
+    networks:
+      - mynet
+
+networks:
+  mynet:

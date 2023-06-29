@@ -1,0 +1,35 @@
+version: '3'
+services:
+  flaskappback1:
+    build:
+      context: ./servers
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+    networks:
+      - mynet1
+      - connexion1
+
+  redis:
+    image: redis
+    networks:
+      - mynet1
+
+  reactappfront1:
+        build:
+            context: ./fclient
+            dockerfile: Dockerfile
+        # tty: true
+        ports:
+            - "3000:3000"
+        depends_on:
+            - flaskappback1    
+        networks:
+            - connexion1    
+
+networks:
+   mynet1:
+   connexion1:
+     driver: bridge
